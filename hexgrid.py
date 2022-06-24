@@ -25,9 +25,12 @@ basis_a = Vector((2*side_length*cos(radians(30)), 0, 0))
 basis_b = Vector((side_length*cos(radians(30)), 3/2 *side_length, 0))
 
 
+# create hexagon objects and add them to a grid collection
 name = 'hexagon'
-for x in range(5):
-    for y in range(2):
+col = bpy.data.collections.new('hexgrid')
+bpy.data.collections[0].children.link(col)
+for x in range(15):
+    for y in range(13):
         h = height + ((random.random() - 0.5) * deviation * 2)
         mesh = hexagon(name, side_length, h)
 
@@ -38,5 +41,4 @@ for x in range(5):
         # put object in its place on the grid
         obj.location += x * basis_a + y * basis_b
 
-        col = bpy.data.collections[0]
         col.objects.link(obj)
