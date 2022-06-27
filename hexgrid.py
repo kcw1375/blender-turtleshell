@@ -24,6 +24,15 @@ deviation = 6
 basis_a = Vector((2*side_length*cos(radians(30)), 0, 0))
 basis_b = Vector((side_length*cos(radians(30)), 3/2 *side_length, 0))
 
+# create materials so we can assign random materials to hexagons
+base_mat = bpy.data.materials.new('mat')
+base_mat.use_nodes = False
+base_mat.diffuse_color = (1, 0.5, 0.5, 1)
+
+materials = [base_mat, base_mat.copy(), base_mat.copy()]
+materials[1].diffuse_color = (0.5, 1, 1, 1)
+materials[2].diffuse_color = (0.5, 1, 0.5, 1)
+
 
 # create hexagon objects and add them to a grid collection
 name = 'hexagon'
@@ -40,5 +49,9 @@ for x in range(15):
         # by default object is placed at origin
         # put object in its place on the grid
         obj.location += x * basis_a + y * basis_b
+        
+        # assign random material to object
+        mat = random.choice(materials)
+        obj.data.materials.append(mat)
 
         col.objects.link(obj)
